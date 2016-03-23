@@ -7,11 +7,14 @@ import { HomeComponent } from './home/home.component';
 import { ChatRoomComponent } from './chat/chat-room.component';
 import { WorkRequestListComponent } from './work-request/work-request-list.component';
 
+import {ChatService} from './chat/chat.service';
+import {StompService} from './stomp/stomp.service';
+
 @Component({
   selector: 'my-app',
   templateUrl: 'app/app.component.html',
   directives: [ ROUTER_DIRECTIVES, NavBarComponent ],
-  providers: [ ROUTER_PROVIDERS ]
+  providers: [ ROUTER_PROVIDERS, ChatService, StompService ]
 })
 @RouteConfig([
   { path: '/home', name: 'Home', component: HomeComponent, useAsDefault: true },
