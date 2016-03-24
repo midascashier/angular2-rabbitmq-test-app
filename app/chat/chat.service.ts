@@ -5,8 +5,8 @@ import {ChatMessage} from './chat-message.model';
 @Injectable()
 export class ChatService {
 
-  // List of messages received in the chat.
-  private messageList: ChatMessage[];
+  // Subscription to the chat room
+  private _chatSubscription: StompSubscription = null;
 
   // Current logged in user
   public screenName: string;
@@ -27,22 +27,19 @@ export class ChatService {
     chatMessage.action = 'login';
     chatMessage.from = this.screenName;
 
-    this._stompService.sendDirectMessage(chatMessage);
+    this._stompService.sendDirectMessage('/queue/test', this.screenName);
   }
 
   /**
-   * Sends a new message to the chat.
-   * @param message
+   * Subscribes to the chat room.
+   * @param callback
    */
-  sendMessage(to: string, message: string) {
-
-    let chatMessage = new ChatMessage();
-    chatMessage.action = 'message';
-    chatMessage.from = this.screenName;
-    chatMessage.to = to;
-    chatMessage.message = message;
-
-    this._stompService.sendDirectMessage(chatMessage);
+  subscribeToChatRoom(callback) {
+    if (this._chatSubscription == null) {
+      this._chatSubscription = this._stompService.subscribe('/queue/test', callback);
+    }
   }
+
+
 
 }
