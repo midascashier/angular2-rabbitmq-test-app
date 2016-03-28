@@ -8,7 +8,9 @@ import {ChatMessage} from './chat-message.model';
 })
 export class ChatRoomComponent implements OnInit {
 
-  _chatMessages:string[];
+  _chatMessages:ChatMessage[];
+
+  public screenName:string;
 
   constructor(private _chatService:ChatService) {
     this._chatMessages = [];
