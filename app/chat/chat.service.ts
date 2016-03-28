@@ -11,9 +11,7 @@ export class ChatService {
   // Current logged in user
   public screenName: string;
 
-  constructor(
-    private _stompService: StompService
-  ){}
+  constructor( private _stompService: StompService ){}
 
   /**
    * Logs an user in.
@@ -24,10 +22,28 @@ export class ChatService {
     this.screenName = screenName;
 
     let chatMessage = new ChatMessage();
-    chatMessage.action = 'login';
+    chatMessage.action = 'loginUser';
     chatMessage.from = this.screenName;
 
-    this._stompService.sendDirectMessage('/queue/test', this.screenName);
+    console.log(chatMessage);
+    this._stompService.send('/topic/chat', JSON.stringify(chatMessage));
+  }
+
+  /**
+   * Sends a message to the current chat room.
+   * @param message
+   */
+  sendMessage(message: string) {
+    if (this._chatSubscription != null) {
+
+      let chatMessage = new ChatMessage();
+      chatMessage.action = 'message';
+      chatMessage.from = this.screenName;
+      chatMessage.to = 'all';
+      chatMessage.message = message;
+      console.log(chatMessage);
+      this._stompService.send('/topic/chat', JSON.stringify(chatMessage));
+    }
   }
 
   /**
@@ -36,10 +52,7 @@ export class ChatService {
    */
   subscribeToChatRoom(callback) {
     if (this._chatSubscription == null) {
-      this._chatSubscription = this._stompService.subscribe('/queue/test', callback);
+      this._chatSubscription = this._stompService.subscribe('/queue/' + this.screenName, callback);
     }
   }
-
-
-
 }

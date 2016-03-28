@@ -14,7 +14,7 @@ export class ChatComponent {
   constructor(
     private _chatService: ChatService
   ){
-    this.screenName = "Not Logged In Yet";
+    this.screenName = _chatService.screenName;
   }
 
   /**

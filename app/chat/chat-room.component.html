@@ -1,6 +1,28 @@
-<span>Chat Room Component</span>
-<ul>
-  <li *ngFor="#message of _chatMessages">
-    <span>{{message}}</span>
-  </li>
-</ul>
+<div class="col-md-12 col-sm-12">
+
+  <h3>Chat Room</h3>
+
+  <div class="col-md-8 col-sm-8">
+    <h5>You are currently not logged in. Please login first.</h5>
+  </div>
+
+  <div class="col-md-8 col-sm-8">
+    <h5>Current User: {{screenName}}</h5>
+    <form>
+      <div class="form-group">
+        <label for="newMessage">Message:</label>
+        <input class="form-control" id="newMessage" [(ngModel)]="newMessage" placeholder="Message">
+      </div>
+      <button type="button" (click)="sendMessage(newMessage)" class="btn btn-default">Send</button>
+    </form>
+  </div>
+  <div class="col-md-8 col-sm-8" *ngIf="screenName">
+    <h5>Message List</h5>
+    <ul>
+      <li *ngFor="#message of _chatMessages">
+        <span>From: {{message.from}}</span>: <span>{{message.message}}</span>
+      </li>
+    </ul>
+  </div>
+
+</div>

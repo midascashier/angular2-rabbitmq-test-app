@@ -1,5 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
 import {ChatService} from './chat.service';
+import {ChatMessage} from './chat-message.model';
 
 @Component({
   selector: 'chat-room',
@@ -7,9 +8,9 @@ import {ChatService} from './chat.service';
 })
 export class ChatRoomComponent implements OnInit {
 
-  _chatMessages: string[];
+  _chatMessages:string[];
 
-  constructor(private _chatService: ChatService) {
+  constructor(private _chatService:ChatService) {
     this._chatMessages = [];
   }
 
@@ -17,10 +18,25 @@ export class ChatRoomComponent implements OnInit {
    * When the chat room component is created, request a chat room subscription.
    */
   ngOnInit() {
-    this._chatService.subscribeToChatRoom((message: string) => {
+    this.screenName = this._chatService.screenName;
+
+    this._chatService.subscribeToChatRoom((message:string) => {
+
+      let chatMessage:ChatMessage = JSON.parse(message);
+
       if (this._chatMessages instanceof Array) {
-        this._chatMessages.push(message.body);
+        console.log(chatMessage);
+        this._chatMessages.push(chatMessage);
       }
     });
+  }
+
+  /**
+   * Sends a new message to the chat.
+   * @param message
+   */
+  sendMessage(message:string) {
+    this._chatService.sendMessage(message);
+    //this._chatMessages.push(message);
   }
 }
