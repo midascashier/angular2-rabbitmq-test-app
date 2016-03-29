@@ -43,10 +43,10 @@ interface StompClient {
    */
   debug: (msg: string) => void;
   heartbeat : HeartBeatConfig;
-  connect(login: string, passcode: string, connectCallback?: () => void, errorCallback?: () => void, host?: string);
-  connect(headers: StompHeaders, connectCallback?: StompFrameCallback, errorCallback?: StompFrameCallback);
+  connect(login: string, passcode: string, connectCallback?: () => void, errorCallback?: () => void, host?: string): void;
+  connect(headers: StompHeaders, connectCallback?: StompFrameCallback, errorCallback?: StompFrameCallback): void;
   subscribe(destination: string, callback: (stompFrame: StompFrame, headers?: StompHeaders) => void): StompSubscription;
-  disconnect(disconnectCallback?: () => void);
+  disconnect(disconnectCallback?: () => void): void;
   send(destination: string, headers: Object, payload: Object): void;
 }
 

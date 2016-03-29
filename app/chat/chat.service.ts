@@ -6,18 +6,19 @@ import {ChatMessage} from './chat-message.model';
 export class ChatService {
 
   // Subscription to the chat room
-  private _chatSubscription: StompSubscription = null;
+  private _chatSubscription:StompSubscription = null;
 
   // Current logged in user
-  public screenName: string;
+  public screenName:string;
 
-  constructor( private _stompService: StompService ){}
+  constructor(private _stompService:StompService) {
+  }
 
   /**
    * Logs an user in.
    * @param screenName
    */
-  loginUser(screenName: string) {
+  loginUser(screenName:string) {
 
     this.screenName = screenName;
 
@@ -33,7 +34,7 @@ export class ChatService {
    * Sends a message to the current chat room.
    * @param message
    */
-  sendMessage(message: string) {
+  sendMessage(message:string) {
     if (this._chatSubscription != null) {
 
       let chatMessage = new ChatMessage();
@@ -50,7 +51,7 @@ export class ChatService {
    * Subscribes to the chat room.
    * @param callback
    */
-  subscribeToChatRoom(callback) {
+  subscribeToChatRoom(callback:any) {
     if (this._chatSubscription == null) {
       this._chatSubscription = this._stompService.subscribe('/queue/' + this.screenName, callback);
     }

@@ -5,8 +5,8 @@ import 'rxjs/Rx';
 import {StompConfig} from './stomp-config.interface';
 
 // External Javascript Objects, declare them so the compiler doesn't complain.
-declare var Stomp;
-declare var SockJS;
+declare var Stomp:StompStatic;
+declare var SockJS:any;
 
 @Injectable()
 export class StompService {
@@ -77,7 +77,7 @@ export class StompService {
    * @param destination
    * @param callback
    */
-  subscribe(destination: string, callback) {
+  subscribe(destination: string, callback:any) {
 
     let subscription:StompSubscription = this._stomp_client.subscribe(destination, (stompFrame: StompFrame) => {
       if (stompFrame.body){
