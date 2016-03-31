@@ -11,13 +11,13 @@ declare var SockJS:any;
 @Injectable()
 export class StompService {
 
-  _stomp_client: StompClient;
+  _stomp_client:StompClient;
 
-  _config: StompConfig;
+  _config:StompConfig;
 
-  _current_subscriptions: StompSubscription[];
+  _current_subscriptions:StompSubscription[];
 
-  constructor (private _http:Http) {
+  constructor(private _http:Http) {
 
     this._current_subscriptions = [];
 
@@ -29,7 +29,7 @@ export class StompService {
    */
   initialize() {
     this.getConfig().then(
-      config => {
+        config => {
         this._config = config;
         let url = 'http://' + this._config.host + ":" + this._config.port + '/stomp';
         let ws = new SockJS(url);
@@ -41,6 +41,7 @@ export class StompService {
         this._stomp_client.connect(this._config.user, this._config.password, this.on_connect, this.on_error, this._config.virtual_host);
       });
   }
+
   on_connect = function () {
     console.log('connected');
   };
@@ -63,7 +64,7 @@ export class StompService {
    * @param destination
    * @param payload
    */
-  send(destination: string, payload: any, parameters?: any) {
+  send(destination:string, payload:any, parameters?:any) {
 
     if (!parameters) {    // TODO: Find out what other settings can go here.
       parameters = {priority: 9};
@@ -77,10 +78,10 @@ export class StompService {
    * @param destination
    * @param callback
    */
-  subscribe(destination: string, callback:any) {
+  subscribe(destination:string, callback:any) {
 
-    let subscription:StompSubscription = this._stomp_client.subscribe(destination, (stompFrame: StompFrame) => {
-      if (stompFrame.body){
+    let subscription:StompSubscription = this._stomp_client.subscribe(destination, (stompFrame:StompFrame) => {
+      if (stompFrame.body) {
         callback(stompFrame.body);
       }
     });
@@ -88,5 +89,9 @@ export class StompService {
     this._current_subscriptions.push(subscription);
 
     return subscription;
+  }
+
+  unsubscribe(subscription:StompSubscription) {
+    subscription.unsubscribe();
   }
 }

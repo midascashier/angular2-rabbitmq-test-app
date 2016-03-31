@@ -22,12 +22,27 @@ export class ChatService {
 
     this.screenName = screenName;
 
-    let chatMessage = new ChatMessage();
-    chatMessage.action = 'loginUser';
-    chatMessage.from = this.screenName;
+    // Create temporary queue
+    let reply_queue = Math.random().toString(36).substring(7);
+    this._stompService.send(reply_queue, "", {"exclusive": true, "auto-delete": true});
+    let tmpLoginSubscription = this._stompService.subscribe(reply_queue, (message) => {
+      tmpLoginSubscription.unsubscribe();
+      let response = JSON.parse(message);
+      console.log(response);
 
+      let chatQueue = response.newQueue.substr(4);
+      this._chatSubscription = this._stompService.subscribe(chatQueue, (message:string) => {
+        let chatMessage:ChatMessage = JSON.parse(message);
+        console.log(chatMessage);
+      });
+
+    });
+
+    let chatMessage = new ChatMessage();
+    chatMessage.action = 'PleaseLoginUser';
+    chatMessage.from = this.screenName;
     console.log(chatMessage);
-    this._stompService.send('/topic/chat', JSON.stringify(chatMessage));
+    this._stompService.send('/queue/chatAdmin', JSON.stringify(chatMessage), {"reply-to": reply_queue});
   }
 
   /**
@@ -43,7 +58,7 @@ export class ChatService {
       chatMessage.to = 'all';
       chatMessage.message = message;
       console.log(chatMessage);
-      this._stompService.send('/topic/chat', JSON.stringify(chatMessage));
+      this._stompService.send('/exchange/chatRoom', JSON.stringify(chatMessage));
     }
   }
 
