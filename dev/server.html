@@ -1,0 +1,19 @@
+
+<script src="js/stomp.js"></script>
+
+<script type="text/javascript">
+
+  function response(response){ alert(response); }
+
+  var ws = new WebSocket('ws://127.0.0.1:15674/ws');
+  client = Stomp.over(ws);
+
+  client.connect( "guest", "guest", function() {
+    client.subscribe("/queue/reply-logins", function(message){
+      let response = "Login Processed for User. New Queue = CHATX";
+      let reply_queue = message.headers['reply-to'];
+      client.send(reply_queue,{},response);
+    });
+  },"","chat");
+
+</script>
