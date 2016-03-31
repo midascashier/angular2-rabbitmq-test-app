@@ -20,7 +20,7 @@
     <h5>Message List</h5>
     <ul>
       <li *ngFor="#message of _chatMessages">
-        <span>From: {{message.from}}</span>: <span>{{message.message}}</span>
+        <span>From: {{message.from}}</span>: <span>{{message.message}}</span> <span>{{message.timestamp}}</span>
       </li>
     </ul>
   </div>
