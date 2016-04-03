@@ -6,7 +6,7 @@
   "user": "midas",
   "password": "midas",
 
-  "virtual_host": "/",
+  "virtual_host": "vh",
 
   "heartbeat_in": 0,
   "heartbeat_out": 0

@@ -1,4 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, OnDestroy} from 'angular2/core';
+import {FORM_DIRECTIVES} from 'angular2/common';
+
 import {ChatService} from './chat.service';
 import {ChatMessage} from './chat-message.model';
 
@@ -6,39 +8,51 @@ import {ChatMessage} from './chat-message.model';
   selector: 'chat-room',
   templateUrl: 'app/chat/chat-room.component.html'
 })
-export class ChatRoomComponent implements OnInit {
+export class ChatRoomComponent implements OnInit, OnDestroy {
 
-  _chatMessages:ChatMessage[];
+  private _screenName:string;
 
-  public screenName:string;
+  private _chatMessages:ChatMessage[];
 
   constructor(private _chatService:ChatService) {
-    this._chatMessages = [];
   }
 
   /**
-   * When the chat room component is created, request a chat room subscription.
+   * When the chat room component is created, check if the user needs to login
    */
   ngOnInit() {
-    this.screenName = this._chatService.screenName;
+    this._screenName = this._chatService.screenName;
+    this._chatMessages = this._chatService.chatMessages;
 
-    this._chatService.subscribeToChatRoom((message:string) => {
+    if (this._screenName) {
+      this.loginUser(this._screenName);
+    }
+  }
 
-      let chatMessage:ChatMessage = JSON.parse(message);
+  /**
+   * Lifecycle hook to clean up things.
+   */
+  ngOnDestroy() {
+    this._chatService.logout();
+  }
 
-      if (this._chatMessages instanceof Array) {
-        console.log(chatMessage);
-        this._chatMessages.push(chatMessage);
-      }
-    });
+  /**
+   * Registers a new user into the chat
+   * @param screenName
+   */
+  loginUser(screenName:string) {
+    this._chatService.login(screenName);
+
+    // TODO: Do this as a promise
+    this._screenName = screenName;
   }
 
   /**
    * Sends a new message to the chat.
    * @param message
    */
-  sendMessage(message:string) {
-    this._chatService.sendMessage(message);
-    //this._chatMessages.push(message);
+  sendMessage() {
+    this._chatService.sendMessage(this.newMessage);
+    this.newMessage = '';
   }
 }

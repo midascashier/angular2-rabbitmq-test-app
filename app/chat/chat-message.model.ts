@@ -1,6 +1,10 @@
+export const CHAT_LOGIN = "LOGIN_USER";
+export const CHAT_MESSAGE = "MESSAGE";
+export const CHAT_LOGOUT = "LOGOUT";
+
 export class ChatMessage {
   /**
-   * What is this message for: loginUser, message, logoutUser.
+   * What is this message for: login, message, logoutUser.
    */
   action: string;
 

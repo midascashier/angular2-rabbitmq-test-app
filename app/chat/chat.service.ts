@@ -1,48 +1,72 @@
 import {Injectable} from 'angular2/core';
 import {StompService} from '../stomp/stomp.service';
-import {ChatMessage} from './chat-message.model';
+import {ChatMessage, CHAT_LOGIN, CHAT_MESSAGE, CHAT_LOGOUT} from './chat-message.model';
 
 @Injectable()
 export class ChatService {
 
+  // All messages are sent here.
+  private _chat_queue: string = '/exchange/chatRoom/';
+
   // Subscription to the chat room
   private _chatSubscription:StompSubscription = null;
+
+  // Current messages reported for the chat.
+  public chatMessages:ChatMessage[];
 
   // Current logged in user
   public screenName:string;
 
   constructor(private _stompService:StompService) {
+    this.chatMessages = [];
   }
 
   /**
    * Logs an user in.
    * @param screenName
    */
-  loginUser(screenName:string) {
+  login(screenName:string) {
 
-    this.screenName = screenName;
+    if (!this._chatSubscription) {
 
-    // Create temporary queue
-    let reply_queue = Math.random().toString(36).substring(7);
-    this._stompService.send(reply_queue, "", {"exclusive": true, "auto-delete": true});
-    let tmpLoginSubscription = this._stompService.subscribe(reply_queue, (message) => {
-      tmpLoginSubscription.unsubscribe();
-      let response = JSON.parse(message);
-      console.log(response);
+      this.screenName = screenName;
 
-      let chatQueue = response.newQueue.substr(4);
-      this._chatSubscription = this._stompService.subscribe(chatQueue, (message:string) => {
-        let chatMessage:ChatMessage = JSON.parse(message);
-        console.log(chatMessage);
-      });
+      // Subscribe to the newly created queue and define the function that will handle all communications.
+      this._chatSubscription = this._stompService.subscribe(this._chat_queue, (message) => { this.receiveMessage(message); } );
 
-    });
+      // Send the login request, this will link the chat queue with the exchange
+      let chatMessage = new ChatMessage();
+      chatMessage.action = CHAT_LOGIN;
+      chatMessage.from = this.screenName;
+      this._stompService.send(this._chat_queue, JSON.stringify(chatMessage));
 
-    let chatMessage = new ChatMessage();
-    chatMessage.action = 'PleaseLoginUser';
-    chatMessage.from = this.screenName;
-    console.log(chatMessage);
-    this._stompService.send('/queue/chatAdmin', JSON.stringify(chatMessage), {"reply-to": reply_queue});
+      // TODO: ACCEPT THE PROMISE
+    } else {
+      // TODO: REJECT THE PROMISE
+    }
+  }
+
+  /**
+   * Parses and processes the chat communication
+   * @param message
+   */
+  receiveMessage(message:string) {
+    // Parse the message.
+    let chatMessage = JSON.parse(message);
+    chatMessage instanceof ChatMessage;
+
+    if (chatMessage.action == CHAT_LOGIN) {
+      console.log("A new user has logged into the chat: " + chatMessage.from);
+      this.chatMessages.push(chatMessage);
+    } else if (chatMessage.action == CHAT_MESSAGE) {
+      console.log("A new message was sent. User: " + chatMessage.from + " Message: " + chatMessage.message);
+      this.chatMessages.push(chatMessage);
+    } else if (chatMessage.action == CHAT_LOGOUT) {
+      console.log("An user has logged out of the chat: " + chatMessage.from);
+      this.chatMessages.push(chatMessage);
+    } else {
+      console.log("Unknown message received: " + chatMessage);
+    }
   }
 
   /**
@@ -53,22 +77,26 @@ export class ChatService {
     if (this._chatSubscription != null) {
 
       let chatMessage = new ChatMessage();
-      chatMessage.action = 'message';
+      chatMessage.action = CHAT_MESSAGE;
       chatMessage.from = this.screenName;
       chatMessage.to = 'all';
       chatMessage.message = message;
-      console.log(chatMessage);
-      this._stompService.send('/exchange/chatRoom', JSON.stringify(chatMessage));
+      this._stompService.send(this._chat_queue, JSON.stringify(chatMessage));
     }
   }
 
   /**
-   * Subscribes to the chat room.
-   * @param callback
+   * Logs out of the chat.
    */
-  subscribeToChatRoom(callback:any) {
-    if (this._chatSubscription == null) {
-      this._chatSubscription = this._stompService.subscribe('/queue/' + this.screenName, callback);
+  logout() {
+    if (this._chatSubscription != null) {
+      let chatMessage = new ChatMessage();
+      chatMessage.action = CHAT_LOGOUT;
+      chatMessage.from = this.screenName;
+      chatMessage.to = 'all';
+      this._stompService.send(this._chat_queue, JSON.stringify(chatMessage));
+
+      this._stompService.unsubscribe(this._chatSubscription);
     }
   }
 }

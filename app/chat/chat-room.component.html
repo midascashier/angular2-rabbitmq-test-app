@@ -1,28 +1,51 @@
-<div class="col-md-12 col-sm-12">
+<h3>Chat Room</h3>
+<div class="row" *ngIf="_screenName == '' || _screenName == null">
+  <h5>You are currently not logged in. Please login first.</h5>
 
-  <h3>Chat Room</h3>
+  <form (ngSubmit)="loginUser(loginScreenName)">
+    <div class="form-group col-md-10 col-sm-10">
+      <input class="form-control" id="screenName" [(ngModel)]="loginScreenName" placeholder="Screen Name">
+    </div>
+    <div class="col-md-2 col-sm-2">
+      <button type="button" (click)="loginUser(loginScreenName)" class="btn btn-default">Login</button>
+    </div>
+  </form>
 
-  <div class="col-md-8 col-sm-8">
-    <h5>You are currently not logged in. Please login first.</h5>
-  </div>
+</div>
 
-  <div class="col-md-8 col-sm-8">
-    <h5>Current User: {{screenName}}</h5>
-    <form>
-      <div class="form-group">
-        <label for="newMessage">Message:</label>
+<div class="row" *ngIf="_screenName">
+  <h5>Current User: {{_screenName}}</h5>
+  <div class="row">
+    <form (ngSubmit)="sendMessage()">
+      <div class="form-group col-md-10 col-sm-10">
         <input class="form-control" id="newMessage" [(ngModel)]="newMessage" placeholder="Message">
       </div>
-      <button type="button" (click)="sendMessage(newMessage)" class="btn btn-default">Send</button>
+      <div class="col-md-2 col-sm-2">
+        <button type="button" (click)="sendMessage()" class="btn btn-default">Send</button>
+      </div>
     </form>
   </div>
-  <div class="col-md-8 col-sm-8" *ngIf="screenName">
-    <h5>Message List</h5>
-    <ul>
-      <li *ngFor="#message of _chatMessages">
-        <span>From: {{message.from}}</span>: <span>{{message.message}}</span> <span>{{message.timestamp}}</span>
-      </li>
-    </ul>
+  <div class="row">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading"><strong>Chat Room</strong></div>
+      <div class="panel-body">
+        <p>All Chat messages will be displayed here:</p>
+      </div>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>From</th>
+          <th>Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="#message of _chatMessages">
+          <td>{{message.from}}</td>
+          <td>{{message.message}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-
 </div>

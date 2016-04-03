@@ -43,10 +43,8 @@ export class StompService {
   }
 
   on_connect = function () {
-    console.log('connected');
   };
   on_error = function () {
-    console.log('error');
   };
 
   /**
@@ -66,8 +64,8 @@ export class StompService {
    */
   send(destination:string, payload:any, parameters?:any) {
 
-    if (!parameters) {    // TODO: Find out what other settings can go here.
-      parameters = {priority: 9};
+    if (!parameters) {
+      parameters = {};
     }
 
     this._stomp_client.send(destination, parameters, payload);
@@ -91,6 +89,10 @@ export class StompService {
     return subscription;
   }
 
+  /**
+   * Un-subscribes a current subscription.
+   * @param subscription
+   */
   unsubscribe(subscription:StompSubscription) {
     subscription.unsubscribe();
   }
