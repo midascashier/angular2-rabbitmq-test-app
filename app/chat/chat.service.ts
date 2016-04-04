@@ -6,7 +6,7 @@ import {ChatMessage, CHAT_LOGIN, CHAT_MESSAGE, CHAT_LOGOUT} from './chat-message
 export class ChatService {
 
   // All messages are sent here.
-  private _chat_queue: string = '/exchange/chatRoom/';
+  private _chat_queue: string = '/exchange/chatRoom/chat';
 
   // Subscription to the chat room
   private _chatSubscription:StompSubscription = null;
@@ -38,6 +38,7 @@ export class ChatService {
       let chatMessage = new ChatMessage();
       chatMessage.action = CHAT_LOGIN;
       chatMessage.from = this.screenName;
+      chatMessage.message = "I just logged in";
       this._stompService.send(this._chat_queue, JSON.stringify(chatMessage));
 
       // TODO: ACCEPT THE PROMISE
@@ -94,9 +95,14 @@ export class ChatService {
       chatMessage.action = CHAT_LOGOUT;
       chatMessage.from = this.screenName;
       chatMessage.to = 'all';
+      chatMessage.message = "I just logged out";
       this._stompService.send(this._chat_queue, JSON.stringify(chatMessage));
 
       this._stompService.unsubscribe(this._chatSubscription);
+
+      this.screenName = null;
+      this._chatSubscription = null;
+      this.chatMessages = [];
     }
   }
 }

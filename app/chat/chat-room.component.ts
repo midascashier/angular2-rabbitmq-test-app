@@ -51,8 +51,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
    * Sends a new message to the chat.
    * @param message
    */
-  sendMessage() {
+  sendMessage(newMessageInput) {
     this._chatService.sendMessage(this.newMessage);
     this.newMessage = '';
+    newMessageInput.focus();
   }
 }

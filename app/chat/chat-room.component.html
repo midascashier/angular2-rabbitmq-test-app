@@ -14,21 +14,10 @@
 </div>
 
 <div class="row" *ngIf="_screenName">
-  <h5>Current User: {{_screenName}}</h5>
-  <div class="row">
-    <form (ngSubmit)="sendMessage()">
-      <div class="form-group col-md-10 col-sm-10">
-        <input class="form-control" id="newMessage" [(ngModel)]="newMessage" placeholder="Message">
-      </div>
-      <div class="col-md-2 col-sm-2">
-        <button type="button" (click)="sendMessage()" class="btn btn-default">Send</button>
-      </div>
-    </form>
-  </div>
   <div class="row">
     <div class="panel panel-default">
       <!-- Default panel contents -->
-      <div class="panel-heading"><strong>Chat Room</strong></div>
+      <div class="panel-heading"><strong>Chat Room ({{_screenName}})</strong></div>
       <div class="panel-body">
         <p>All Chat messages will be displayed here:</p>
       </div>
@@ -47,5 +36,15 @@
         </tbody>
       </table>
     </div>
+  </div>
+  <div class="row">
+    <form (ngSubmit)="sendMessage(newMessageInput)">
+      <div class="form-group col-md-10 col-sm-10">
+        <input class="form-control" id="newMessage" [(ngModel)]="newMessage" #newMessageInput placeholder="Message">
+      </div>
+      <div class="col-md-2 col-sm-2">
+        <button type="button" (click)="sendMessage(newMessageInput)" class="btn btn-default">Send</button>
+      </div>
+    </form>
   </div>
 </div>
