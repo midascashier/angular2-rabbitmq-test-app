@@ -5,13 +5,13 @@ export class WorkRequest {
   module:string;
   f:string;
 
-  request:string;
+  request:any;
 
   response:string;
 
   constructor(module:string, f:string) {
     this.module = module;
     this.f = f;
-    this.status = "Pending";
+    this.status = "PENDING";
   }
 }

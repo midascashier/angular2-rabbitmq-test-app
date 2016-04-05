@@ -32,7 +32,7 @@ export class ChatService {
       this.screenName = screenName;
 
       // Subscribe to the newly created queue and define the function that will handle all communications.
-      this._chatSubscription = this._stompService.subscribe(this._chat_queue, (message) => {
+      this._chatSubscription = this._stompService.subscribe(this._chat_queue, (message:string) => {
         this.receiveMessage(message);
       });
 

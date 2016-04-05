@@ -40,7 +40,7 @@
   <div class="row">
     <form (ngSubmit)="sendMessage(newMessageInput)">
       <div class="form-group col-md-10 col-sm-10">
-        <input class="form-control" id="newMessage" [(ngModel)]="newMessage" #newMessageInput placeholder="Message">
+        <input class="form-control" id="newMessage" #newMessageInput placeholder="Message">
       </div>
       <div class="col-md-2 col-sm-2">
         <button type="button" (click)="sendMessage(newMessageInput)" class="btn btn-primary">Send</button>

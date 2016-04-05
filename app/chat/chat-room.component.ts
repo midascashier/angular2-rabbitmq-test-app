@@ -12,7 +12,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   private _screenName:string;
 
-  private _chatMessages:ChatMessage[];
+  private _chatMessages:ChatMessage[]
 
   constructor(private _chatService:ChatService) {
   }
@@ -51,9 +51,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
    * Sends a new message to the chat.
    * @param message
    */
-  sendMessage(newMessageInput) {
-    this._chatService.sendMessage(this.newMessage);
-    this.newMessage = '';
+  sendMessage(newMessageInput:any) {
+    this._chatService.sendMessage(newMessageInput.target.value);
     newMessageInput.focus();
   }
 }

@@ -9,7 +9,9 @@ import {WorkRequestService} from './work-request.service';
 })
 export class WorkRequestComponent implements OnInit {
 
-  public workRequests:WorkRequest;
+  public workRequests:WorkRequest[];
+
+  public workRequestsSummary:any;
 
   constructor(private _workRequestService:WorkRequestService) {
 
@@ -20,6 +22,7 @@ export class WorkRequestComponent implements OnInit {
    */
   ngOnInit() {
     this.workRequests = this._workRequestService.workRequests;
+    this.workRequestsSummary = this._workRequestService.workRequestsSummary;
   }
 
   /**

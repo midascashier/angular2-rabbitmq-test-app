@@ -11,8 +11,11 @@ export class WorkRequestService {
 
   public workRequests:WorkRequest[];
 
+  public workRequestsSummary:any;
+
   constructor(private _stompService:StompService) {
     this.workRequests = [];
+    this.workRequestsSummary = {};
   }
 
   /**
@@ -29,7 +32,7 @@ export class WorkRequestService {
         workRequest.request = {"username": item, "companyId": 9};
 
         this.processWorkRequest(workRequest)
-          .then((response) => {
+          .then((response:any) => {
             workRequest.status = "COMPLETED";
 
             let customerInfo = response.customerInfo;
@@ -58,7 +61,7 @@ export class WorkRequestService {
         workRequest.request = {"journalId": item};
 
         this.processWorkRequest(workRequest)
-          .then((response) => {
+          .then((response:any) => {
             workRequest.status = "COMPLETED";
             let transactionInfo = response.transactionInfo;
             let responseFormatted = `J: ${transactionInfo.caJournal_Id} S: ${transactionInfo.caTransactionStatus_Id} A: ${transactionInfo.Amount} ${transactionInfo.CurrencyCode}`;
@@ -78,6 +81,7 @@ export class WorkRequestService {
    */
   processWorkRequest(workRequest:WorkRequest) {
 
+    this.workRequestsSummary[workRequest.module].PENDING++;
     this.workRequests.push(workRequest);
 
     let promise = new Promise(
@@ -87,12 +91,16 @@ export class WorkRequestService {
         let reply_to_queue = 'wrq_' + Math.random().toString(36).substr(0, 25);
         this._stompService.send('/queue/' + reply_to_queue, "", reply_to_headers);
 
-        let reply_to_subscription = this._stompService.subscribe(reply_to_queue, (message) => {
+        let reply_to_subscription = this._stompService.subscribe(reply_to_queue, (message:string) => {
 
-          let response = JSON.parse(message);
+          let response:any = JSON.parse(message);
           if (response.state == 'ok') {
+            this.workRequestsSummary[workRequest.module].PENDING--;
+            this.workRequestsSummary[workRequest.module].COMPLETED++;
             resolve(response.response);
           } else {
+            this.workRequestsSummary[workRequest.module].PENDING--;
+            this.workRequestsSummary[workRequest.module].FAILED++;
             reject(response.userMessage);
           }
 
