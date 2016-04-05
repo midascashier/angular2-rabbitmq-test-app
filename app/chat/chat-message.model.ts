@@ -6,14 +6,14 @@ export class ChatMessage {
   /**
    * What is this message for: login, message, logoutUser.
    */
-  action: string;
+  action:string;
 
-  timestamp: any; // TODO: Find out how to define date or time types.
+  timestamp:any; // TODO: Find out how to define date or time types.
 
-  from: string;
-  to: string;
+  from:string;
+  to:string;
 
-  message: string;
+  message:string;
 
   constructor() {
     this.timestamp = new Date();

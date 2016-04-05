@@ -5,7 +5,7 @@
     "start": "concurrently \"npm run tsc:w\" \"npm run live\" ",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "live": "live-server --quiet --entry-file=index.html",
+    "live": "live-server --quiet --entry-file=index.html --port=55600",
     "typings": "typings",
     "postinstall": "typings install"
   },

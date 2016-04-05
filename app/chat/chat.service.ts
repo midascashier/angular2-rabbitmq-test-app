@@ -6,7 +6,7 @@ import {ChatMessage, CHAT_LOGIN, CHAT_MESSAGE, CHAT_LOGOUT} from './chat-message
 export class ChatService {
 
   // All messages are sent here.
-  private _chat_queue: string = '/exchange/chatRoom/chat';
+  private _chat_queue:string = '/exchange/chatRoom/chat';
 
   // Subscription to the chat room
   private _chatSubscription:StompSubscription = null;
@@ -32,7 +32,9 @@ export class ChatService {
       this.screenName = screenName;
 
       // Subscribe to the newly created queue and define the function that will handle all communications.
-      this._chatSubscription = this._stompService.subscribe(this._chat_queue, (message) => { this.receiveMessage(message); } );
+      this._chatSubscription = this._stompService.subscribe(this._chat_queue, (message) => {
+        this.receiveMessage(message);
+      });
 
       // Send the login request, this will link the chat queue with the exchange
       let chatMessage = new ChatMessage();

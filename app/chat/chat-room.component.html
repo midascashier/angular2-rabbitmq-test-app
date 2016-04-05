@@ -7,7 +7,7 @@
       <input class="form-control" id="screenName" [(ngModel)]="loginScreenName" placeholder="Screen Name">
     </div>
     <div class="col-md-2 col-sm-2">
-      <button type="button" (click)="loginUser(loginScreenName)" class="btn btn-default">Login</button>
+      <button type="button" (click)="loginUser(loginScreenName)" class="btn btn-primary">Login</button>
     </div>
   </form>
 
@@ -43,7 +43,7 @@
         <input class="form-control" id="newMessage" [(ngModel)]="newMessage" #newMessageInput placeholder="Message">
       </div>
       <div class="col-md-2 col-sm-2">
-        <button type="button" (click)="sendMessage(newMessageInput)" class="btn btn-default">Send</button>
+        <button type="button" (click)="sendMessage(newMessageInput)" class="btn btn-primary">Send</button>
       </div>
     </form>
   </div>
