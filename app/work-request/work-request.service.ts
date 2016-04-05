@@ -15,7 +15,10 @@ export class WorkRequestService {
 
   constructor(private _stompService:StompService) {
     this.workRequests = [];
-    this.workRequestsSummary = {};
+    this.workRequestsSummary = {
+      customer: { PENDING: 0, COMPLETED: 0, FAILED: 0 },
+      transaction: { PENDING: 0, COMPLETED: 0, FAILED: 0 }
+    };
   }
 
   /**
