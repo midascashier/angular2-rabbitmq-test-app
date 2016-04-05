@@ -40,4 +40,17 @@ export class WorkRequestComponent implements OnInit {
   getTransactions(journalList:string) {
     this._workRequestService.getTransactions(journalList);
   }
+
+  /**
+   * Hides all requests with the given status
+   * @param status
+   */
+  hideWorkRequests(status:string) {
+    for (let i=this.workRequests.length-1; i >= 0; i--) {
+      if (this.workRequests[i].status == status) {
+        this.workRequestsSummary[this.workRequests[i].module][status]--;
+        this.workRequests.splice(i, 1);
+      }
+    }
+  }
 }

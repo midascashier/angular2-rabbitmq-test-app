@@ -27,15 +27,21 @@
       <!-- Default panel contents -->
       <div class="panel-heading"><strong>Work Request Status ({{workRequests.length}})</strong></div>
       <div class="panel-body">
-        <div class="row col col-lg-5 col-md-5 col-sm-5">
-          <p>Pending Customers: {{workRequestsSummary.customer.PENDING}}</p>
-          <p>Completed Customers: {{workRequestsSummary.customer.COMPLETED}}</p>
-          <p>Failed Customers: {{workRequestsSummary.customer.FAILED}}</p>
+        <div class="row">
+          <div class="row col col-lg-3 col-md-3 col-sm-3">
+            <p>Pending Customers: {{workRequestsSummary.customer.PENDING}}</p>
+            <p>Completed Customers: {{workRequestsSummary.customer.COMPLETED}}</p>
+            <p>Failed Customers: {{workRequestsSummary.customer.FAILED}}</p>
+          </div>
+          <div class="row col col-lg-3 col-md-3 col-sm-3">
+            <p>Pending Transactions: {{workRequestsSummary.transaction.PENDING}}</p>
+            <p>Completed Transactions: {{workRequestsSummary.transaction.COMPLETED}}</p>
+            <p>Failed Transactions: {{workRequestsSummary.transaction.FAILED}}</p>
+          </div>
         </div>
-        <div class="row col col-lg-5 col-md-5 col-sm-5">
-          <p>Pending Transactions: {{workRequestsSummary.transaction.PENDING}}</p>
-          <p>Completed Transactions: {{workRequestsSummary.transaction.COMPLETED}}</p>
-          <p>Failed Transactions: {{workRequestsSummary.transaction.FAILED}}</p>
+        <div class="row">
+          <button type="submit" class="btn btn-primary" (click)="hideWorkRequests('COMPLETED')">Remove Completed</button>
+          <button type="submit" class="btn btn-primary" (click)="hideWorkRequests('FAILED')">Remove Failed</button>
         </div>
       </div>
       <table class="table">
