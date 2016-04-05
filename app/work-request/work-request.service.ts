@@ -26,7 +26,7 @@ export class WorkRequestService {
       customerListArray.forEach((item) => {
 
         let workRequest = new WorkRequest("customer", "getCustomerInfo");
-        workRequest.request = {"username": item};
+        workRequest.request = {"username": item, "companyId": 9};
 
         this.processWorkRequest(workRequest)
           .then((response) => {
