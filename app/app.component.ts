@@ -7,10 +7,11 @@ import { NavBarComponent } from './common/nav-bar.component';
 import { BootstrapExamplesComponent } from './bootstrap/bootstrap-examples.component';
 import { ChatRoomComponent } from './chat/chat-room.component';
 import { WorkRequestComponent } from './work-request/work-request.component';
+import { StorageComponent } from './storage/storage.component';
 
-import {StompService} from './stomp/stomp.service';
-import {ChatService} from './chat/chat.service';
-import {WorkRequestService} from './work-request/work-request.service';
+import { StompService } from './stomp/stomp.service';
+import { ChatService } from './chat/chat.service';
+import { WorkRequestService } from './work-request/work-request.service';
 
 @Component({
   selector: 'my-app',
@@ -22,7 +23,8 @@ import {WorkRequestService} from './work-request/work-request.service';
 @RouteConfig([
   {path: '/bootstrap', name: 'BootstrapExamples', component: BootstrapExamplesComponent, useAsDefault: true},
   {path: '/chat_room', name: 'ChatRoom', component: ChatRoomComponent},
-  {path: '/work_request', name: 'WorkRequest', component: WorkRequestComponent}
+  {path: '/work_request', name: 'WorkRequest', component: WorkRequestComponent},
+  {path: '/storage', name: 'Storage', component: StorageComponent}
 ])
 export class AppComponent {
 }

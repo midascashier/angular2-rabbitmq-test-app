@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
-import {StompService} from '../stomp/stomp.service';
-import {ChatMessage, CHAT_LOGIN, CHAT_MESSAGE, CHAT_LOGOUT} from './chat-message.model';
+import { Injectable } from 'angular2/core';
+import { StompService } from '../stomp/stomp.service';
+import { ChatMessage, CHAT_LOGIN, CHAT_MESSAGE, CHAT_LOGOUT } from './chat-message.model';
 
 @Injectable()
 export class ChatService {
