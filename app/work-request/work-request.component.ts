@@ -47,11 +47,11 @@ export class WorkRequestComponent implements OnInit {
    * @param journalList
    */
   public getTransactions(journalList:string) {
-    /*if (this.is_connected) {
+    if (this.is_connected) {
       this._workRequestService.getTransactions(journalList);
     } else {
       console.log("Hold on the Broker is not ready yet. ");
-    }*/
+    }
   }
 
   /**

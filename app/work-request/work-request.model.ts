@@ -1,4 +1,6 @@
 export class WorkRequest {
+  // Id of the work request, will be used for tracking. 
+  id:number
 
   status:string;
 
@@ -7,7 +9,7 @@ export class WorkRequest {
 
   request:any;
 
-  response:string;
+  response:any;
 
   constructor(module:string, f:string) {
     this.module = module;
