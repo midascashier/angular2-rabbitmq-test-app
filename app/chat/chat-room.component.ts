@@ -21,12 +21,14 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
    * When the chat room component is created, check if the user needs to login
    */
   ngOnInit() {
-    this._screenName = this._chatService.screenName;
-    this._chatMessages = this._chatService.chatMessages;
+    this._chatService.initialize().then(() => {
+      this._screenName = this._chatService.screenName;
+      this._chatMessages = this._chatService.chatMessages;
 
-    if (this._screenName) {
-      this.loginUser(this._screenName);
-    }
+      if (this._screenName) {
+        this.loginUser(this._screenName);
+      }
+    });
   }
 
   /**
@@ -41,10 +43,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
    * @param screenName
    */
   loginUser(screenName:string) {
-    this._chatService.login(screenName);
-
-    // TODO: Do this as a promise
-    this._screenName = screenName;
+    this._chatService.login(screenName).then(() => {
+      this._screenName = screenName;
+    });
   }
 
   /**

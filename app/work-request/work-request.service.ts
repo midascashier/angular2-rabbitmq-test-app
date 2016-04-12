@@ -19,6 +19,10 @@ export class WorkRequestService {
     this.workRequestsSummary.transaction = {PENDING: 0, COMPLETED: 0, FAILED: 0};
   }
 
+  /**
+   * Initializes the service
+   * @returns {Promise<R>|Promise<T>|Promise}
+   */
   public initialize():Promise<{}> {
     let p = new Promise((resolve) => {
 

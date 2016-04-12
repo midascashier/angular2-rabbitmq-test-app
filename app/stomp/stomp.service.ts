@@ -95,10 +95,10 @@ export class StompService {
    * Handle errors from stomp.js
    * @param error
    */
-  public on_error = (error:string) => {
+  public on_error = (error:any) => {
 
     // Check for dropped connection and try reconnecting
-    if (error.indexOf("Lost connection") != -1) {
+    if (error.body.indexOf("Lost connection") != -1) {
 
       // Attempt reconnection
       console.log("Reconnecting in 5 seconds...");
