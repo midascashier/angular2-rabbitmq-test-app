@@ -13,7 +13,7 @@ export class StorageInnerObject {
     console.log("Inner Object " + this.singleNumber);
   }
 
-  revive(data) {
+  revive(data:any) {
     return new StorageInnerObject(data.singleString, data.singleNumber);
   }
 
@@ -26,4 +26,4 @@ export class StorageInnerObject {
   }
 }
 // We should not do this, find another way to register this object globally so it can be referenced.
-window.StorageInnerObject = new StorageInnerObject('', 1);
+//window.StorageInnerObject = new StorageInnerObject('', 1);

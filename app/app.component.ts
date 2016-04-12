@@ -1,4 +1,4 @@
-import { Component } from 'angular2/core';
+import { Component, OnInit, OnDestroy } from 'angular2/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
 import { HTTP_PROVIDERS, Http } from 'angular2/http';
 
@@ -26,5 +26,16 @@ import { WorkRequestService } from './work-request/work-request.service';
   {path: '/work_request', name: 'WorkRequest', component: WorkRequestComponent},
   {path: '/storage', name: 'Storage', component: StorageComponent}
 ])
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
+
+  constructor(private _stompService:StompService) {
+  }
+
+  ngOnInit() {
+    this._stompService.initialize().then(() => {});
+  }
+
+  ngOnDestroy() {
+    this._stompService.disconnect();
+  }
 }

@@ -42,11 +42,11 @@ export class StorageComponent {
         if (key === '' && value.hasOwnProperty('__type')) {
 
           if (value.__type == "StorageObject") {
-            let obj:StorageObject = window[value.__type];
-            return obj.revive(value);
+            //let obj:StorageObject = <StorageObject> (window[value.__type]);
+            //return obj.revive(value);
           } else if (value.__type == "StorageInnerObject") {
-            let obj:StorageInnerObject = window[value.__type];
-            return obj.revive(value);
+            //let obj:StorageInnerObject = <StorageInnerObject> (window[value.__type]);
+            //return obj.revive(value);
           } else {
             // Add new objects here.
             return this[key];

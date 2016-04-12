@@ -32,9 +32,9 @@ export class ChatService {
       this.screenName = screenName;
 
       // Subscribe to the newly created queue and define the function that will handle all communications.
-      this._chatSubscription = this._stompService.subscribe(this._chat_queue, (message:string) => {
+      /*this._chatSubscription = this._stompService.subscribe(this._chat_queue, (message:string) => {
         this.receiveMessage(message);
-      });
+      });*/
 
       // Send the login request, this will link the chat queue with the exchange
       let chatMessage = new ChatMessage();
@@ -100,7 +100,7 @@ export class ChatService {
       chatMessage.message = "I just logged out";
       this._stompService.send(this._chat_queue, JSON.stringify(chatMessage));
 
-      this._stompService.unsubscribe(this._chatSubscription);
+      //this._stompService.unsubscribe(this._chatSubscription);
 
       this.screenName = null;
       this._chatSubscription = null;

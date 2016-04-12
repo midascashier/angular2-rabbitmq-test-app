@@ -33,7 +33,7 @@ export class StorageObject {
     */
   }
 
-  revive(data) {
+  revive(data:any) {
     let obj = new StorageObject();
 
     obj.singleString = data.singleString;
@@ -42,11 +42,11 @@ export class StorageObject {
       if (key === '' && value.hasOwnProperty('__type')) {
 
         if (value.__type == "StorageObject") {
-          let obj:StorageObject = window[value.__type];
-          return obj.revive(value);
+          //let obj:StorageObject = window[value.__type];
+          //return obj.revive(value);
         } else if (value.__type == "StorageInnerObject") {
-          let obj:StorageInnerObject = window[value.__type];
-          return obj.revive(value);
+          //let obj:StorageInnerObject = window[value.__type];
+          //return obj.revive(value);
         } else {
           // Add new objects here.
           return this[key];
@@ -97,4 +97,4 @@ export class StorageObject {
   }
 }
 // We should not do this, find another way to register this object globally so it can be referenced.
-window.StorageObject = new StorageObject();
+//window.StorageObject = new StorageObject();
